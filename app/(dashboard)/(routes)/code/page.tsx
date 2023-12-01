@@ -13,6 +13,7 @@ import * as z from "zod";
 import axios from "axios";
 import { ChatCompletionRequestMessage } from "openai";
 import { cn } from "@/lib/utils";
+import Markdown from 'react-markdown'
 import Empty from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
@@ -52,11 +53,11 @@ const CodePage = () => {
   return (
     <div>
       <Heading
-       title="Code Generation"
-       description="Generate code using descriptive text."
-       icon={Code}
-       iconColor="text-green-700"
-       bgColor="bg-green-700/10"
+        title="Code Generation"
+        description="Generate code using descriptive text."
+        icon={Code}
+        iconColor="text-green-700"
+        bgColor="bg-green-700/10"
       />
       <div className='px-4 lg:px-8'>
         <Form {...form}>
@@ -107,20 +108,35 @@ const CodePage = () => {
         )}
       </div>
       <div className='space-y-4 mt-4'>
-      <div className="flex flex-col-reverse gap-y-4">
-            {messages.map((message) => (
-              <div 
-                key={message.content} 
-                className={cn(
-                  "p-8 w-full flex items-start gap-x-8 rounded-lg",
-                  message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
-                )}
-              >
-                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <p className="text-sm">
-                  {message.content}
-                </p>
-              </div>
+        <div className="flex flex-col-reverse gap-y-4">
+          {messages.map((message) => (
+            <div
+              key={message.content}
+              className={cn(
+                "p-8 w-full flex items-start gap-x-8 rounded-lg",
+                message.role === "user" ? "bg-white border border-black/10" : "bg-muted",
+              )}
+            >
+              {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
+              <Markdown
+              className="text-sm overflow-hidden leading-7"
+              components={{
+                pre: ({ node, ...props }) => {
+                  return (
+                    <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
+                      <pre {...props} />
+                    </div>
+                  );
+                },
+                code: ({ node, ...props }) => {
+                  return (
+                    <code className="bg-black/10 rounded-lg p-1" {...props} />
+                  );
+                }
+              }}>
+                {message.content || " "}
+              </Markdown>
+            </div>
           ))}
         </div>
       </div>
