@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MessageSquare } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { formSchema } from "./constants";
@@ -18,8 +17,8 @@ import Empty from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
-
-const ConversationPage = () => {
+import { Code } from "lucide-react";
+const CodePage = () => {
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
   const router = useRouter();
 
@@ -39,7 +38,7 @@ const ConversationPage = () => {
       };
       const newMessages = [...messages, userMessage];
 
-      const response = await axios.post("/api/conversation", {
+      const response = await axios.post("/api/code", {
         messages: newMessages,
       });
       setMessages((current) => [...current, userMessage, response.data]);
@@ -53,11 +52,11 @@ const ConversationPage = () => {
   return (
     <div>
       <Heading
-        title='Conversation'
-        description='Our most advanced conversation model.'
-        icon={MessageSquare}
-        iconColor='text-violet-500'
-        bgColor='bg-violet-500/10'
+       title="Code Generation"
+       description="Generate code using descriptive text."
+       icon={Code}
+       iconColor="text-green-700"
+       bgColor="bg-green-700/10"
       />
       <div className='px-4 lg:px-8'>
         <Form {...form}>
@@ -83,7 +82,7 @@ const ConversationPage = () => {
                     <Input
                       className='border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent'
                       disabled={isLoading}
-                      placeholder='How do I calculate the radius of a circle?'
+                      placeholder='Simple toggle button with react hook'
                       {...field}
                     />
                   </FormControl>
@@ -104,7 +103,7 @@ const ConversationPage = () => {
       <div className='space-y-4 mt-4'>
         {isLoading && <Loader />}
         {messages.length === 0 && !isLoading && (
-          <Empty label='No conversation started.' />
+          <Empty label='No Code started.' />
         )}
       </div>
       <div className='space-y-4 mt-4'>
@@ -129,4 +128,4 @@ const ConversationPage = () => {
   );
 };
 
-export default ConversationPage;
+export default CodePage;
