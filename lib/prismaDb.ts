@@ -1,17 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client"
 
 declare global {
-  namespace NodeJS {
-    interface Global {
-      prisma?: PrismaClient;
-    }
-  }
+  var prisma: PrismaClient | undefined
 }
 
-const prismadb = global.prisma || new PrismaClient();
-
-if (process.env.NODE_ENV !== "production") {
-  global.prisma = prismadb;
-}
+const prismadb = globalThis.prisma || new PrismaClient()
+if (process.env.NODE_ENV !== "production") globalThis.prisma = prismadb
 
 export default prismadb;
