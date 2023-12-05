@@ -14,6 +14,7 @@
     "@typescript-eslint"
   ],
   "rules": {
-    // Your custom rules here
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-explicit-any": "error"
   }
 }
