@@ -1,10 +1,10 @@
-import prismadb from '@lib/prismaDb';
+import prismadb from '../../../lib/prismaDb';
 
-import { absoluteUrl } from "@lib/utils";
+import { absoluteUrl } from "../../../lib/utils";
 
 import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { stripe } from "@lib/stripe";
+import { stripe } from "../../../lib/stripe";
 
 const settingsUrl = absoluteUrl("/settings");
 export async function GET() {
